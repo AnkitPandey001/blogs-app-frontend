@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useLike } from "../Hooks/useLike";
-
+import '../index.css'
 interface User {
   fullname: string;
   username: string;
@@ -21,15 +21,19 @@ interface Post {
   comments: { _id: string }[];
 }
 
+
+
 export const FollowingUserPost = () => {
   const [posts, setPosts] = useState<Post[]>([]);
-  const token = localStorage.getItem("token");
+  const[isLoading,setIsLoading] = useState(false);
+  const token = localStorage.getItem("token") || '';
   const userId = localStorage.getItem('userId')
   const navigate = useNavigate();
   const {toggleLike} = useLike();
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true)
       try {
         const response = await axios.post(
           `https://blogs-app-backend-mb0v.onrender.com/api/post/following`,
@@ -44,6 +48,8 @@ export const FollowingUserPost = () => {
         setPosts(response.data); 
       } catch (error) {
         console.error("Error:", error);
+      }finally{
+        setIsLoading(false)
       }
     };
 
@@ -56,10 +62,20 @@ export const FollowingUserPost = () => {
     navigate(`/profile/${username}`);
   };
 
+  if(isLoading){
+    return (
+      <div className="loader-containers">
+        <div className="spinner"></div>
+        <p>Loading Post...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6 container mx-auto p-4">
       <h1 className="text-2xl font-bold text-center mb-6">Following User Posts</h1>
-      {posts.map((post) => (
+      {posts.length==0?(<h1 className="font-sans text-3xl text-center text-cyan-900">Not Followed Any User</h1>):
+       posts.map((post) => (
         <div
           key={post._id}
           className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col md:flex-row items-stretch"
@@ -98,7 +114,7 @@ export const FollowingUserPost = () => {
                 onClick={() => toggleLike(post._id)}
                 className="cursor-pointer flex items-center space-x-1 text-sm text-gray-600"
               >
-                {post.likes.includes(userId) ? (
+                {post.likes.includes(userId || '') ? (
                   <FaHeart className="text-red-500 text-xl" />
                 ) : (
                   <FaRegHeart className="text-gray-500 text-lg" />

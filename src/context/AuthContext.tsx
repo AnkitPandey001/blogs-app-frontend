@@ -1,7 +1,7 @@
-import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import  { createContext, useState, useEffect, ReactNode } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-
+import React from 'react'
 
 interface User {
   _id: string;
@@ -14,6 +14,19 @@ interface User {
   bio: string;
   link: string;
   posts: Post[];
+}
+
+interface LoggedUser {
+  _id: string;
+  fullname: string;
+  username:string
+  email: string;
+  follower: string[];
+  following: string[];
+  profileImg: string;
+  coverImg: string;
+  bio: string;
+  link: string;
 }
 
 interface Post {
@@ -31,7 +44,7 @@ interface AuthContextType {
   login: (token: string) => void;
   logout: () => void;
   updateUser: () => void;
-  
+  LogUser:LoggedUser | null
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -40,7 +53,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User | null>(null);
-
+  const[LogUser,setLoggedUser] = useState<LoggedUser | null>(null)
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -69,7 +82,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const updateUser = () => {
     const token = localStorage.getItem('token');
     if (token) {
-      axios.get<User>('https://blogs-app-backend-mb0v.onrender.com/api/auth/me', {
+      axios.get('https://blogs-app-backend-mb0v.onrender.com/api/auth/me', {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -77,7 +90,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       })
       .then(response => {
         setUser(response.data);
-        //console.log(response.data)
+        setLoggedUser(response.data.user)
       })
       .catch(error => {
         console.error("Error updating user data:", error);
@@ -86,7 +99,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated,user, login, logout,updateUser }}>
+    <AuthContext.Provider value={{ isAuthenticated,user, login, logout,updateUser,LogUser }}>
       {!loading && children}
     </AuthContext.Provider>
   );

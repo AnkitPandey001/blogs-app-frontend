@@ -10,9 +10,11 @@ import { useNavigate } from "react-router-dom";
 import { FollowerDetails } from "../components/FollowerDetails";
 import { FollowingUserPost } from "../components/FollowingUserPost";
 import '../index.css'
+import { AxiosError } from "../utils/Utils";
 
 export const Profile = () => {
   const { user, updateUser } = useAuth();
+  const { LogUser } = useAuth(); 
   // console.log(user);
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
@@ -29,7 +31,7 @@ export const Profile = () => {
     updateUser();
   }, []);
 
-  if (!user) {
+  if (!user || !LogUser) {
     return (
       <div className="loader-container">
         <div className="spinner"></div>
@@ -73,7 +75,7 @@ export const Profile = () => {
     setShowFollowingModal(true);
   };
 
-  const handleDeletePost = async (postId) => {
+  const handleDeletePost = async (postId:string) => {
     try {
       await axios.delete(`https://blogs-app-backend-mb0v.onrender.com/api/post/${postId}`, {
         headers: {
@@ -106,8 +108,8 @@ export const Profile = () => {
       localStorage.removeItem("userId");
       navigate("/login");
     } catch (error) {
-      console.log(error);
-      toast.success(error.response.data.error);
+      const axiosError = error as AxiosError;
+      toast.error(axiosError?.response?.data?.error || "Error updating profile");
     }
   };
 
@@ -116,13 +118,13 @@ export const Profile = () => {
       {/* Cover Photo */}
       <div className="relative">
         <img
-          src={user.user.coverImg}
+          src={LogUser.coverImg}
           alt="Cover"
           className="w-full h-48 object-cover rounded-lg"
         />
         <div className="absolute -bottom-12 left-8">
           <img
-           src={user.user.profileImg}
+           src={LogUser.profileImg}
             alt="User Profile"
             className="w-24 h-24 rounded-full border-4 border-white"
           />
@@ -132,23 +134,23 @@ export const Profile = () => {
       {/* User Details */}
       <div className="bg-white shadow-md rounded-lg p-6 mt-14 mb-6 flex flex-col items-start space-y-2">
         <h2 className="md:text-2xl text-xl font-bold text-gray-800">
-          {user.user.fullname} ||| @{user.user.username}
+          {LogUser.fullname} ||| @{LogUser.username}
         </h2>
-        <p className="text-gray-600">{user.user.bio}</p>
-        <a className=" text-blue-700" href={user.user.link}>{user.user.link}</a>
-        <p className="text-gray-600"><span className=" font-bold">Email:-</span>{user.user.email}</p>
+        <p className="text-gray-600">{LogUser.bio}</p>
+        <a className=" text-blue-700" href={LogUser.link}>{LogUser.link}</a>
+        <p className="text-gray-600"><span className=" font-bold">Email:-</span>{LogUser.email}</p>
         <div className="flex space-x-4">
           <p
             className="text-gray-600 cursor-pointer"
             onClick={handleFollowFollowingClick}
           >
-            {user.user.follower.length} Followers
+            {LogUser.follower.length} Followers
           </p>
           <p
             className="text-gray-600 cursor-pointer"
             onClick={handleFollowersClick}
           >
-            {user.user.following.length} Following
+            {LogUser.following.length} Following
           </p>
         </div>
         <div className="flex space-x-4 mt-4">
@@ -206,7 +208,7 @@ export const Profile = () => {
       ) : (
         <div className="space-y-4">
           {user.posts.length > 0 ? (
-            user.posts.map((post) => (
+            user.posts.map((post:any) => (
               <div key={post._id} className="bg-white shadow-md rounded-lg p-4">
                 <img
                   src={post.img}

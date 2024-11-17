@@ -1,16 +1,31 @@
 {
   "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "lib": ["dom", "es2015"],
+    "outDir": "./dist",
+    "rootDir": "./src",
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": false,
     "jsx": "react-jsx",
-    "strict": false,
+    "strict": true, // Enable strict type checking
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
-    "noEmitOnError": false
+    "noEmitOnError": true, // Ensure no emit on error
+    "forceConsistentCasingInFileNames": true, // Enforce consistent casing in file names
+    "strictNullChecks": true, // Enable strict null checks
+    "strictFunctionTypes": true, // Enable strict function types
+    "strictBindCallApply": true, // Enable strict bind, call, and apply
+    "strictPropertyInitialization": true, // Enable strict property initialization
+    "noImplicitAny": true, // Disallow implicit any types
+    "noImplicitThis": true, // Disallow implicit this types
+    "alwaysStrict": true, // Parse in strict mode and emit "use strict" for each source file
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["src"],
 }

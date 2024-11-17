@@ -1,5 +1,6 @@
-import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useState, useEffect, ReactNode } from 'react';
 import axios from 'axios';
+import React from 'react'
 
 interface User {
   _id: string;
@@ -26,6 +27,10 @@ interface Blog {
   updatedAt: string;
 }
 
+interface BlogsApiResponse {
+  posts: Blog[];
+}
+
 interface BlogsContextType {
   blogs: Blog[];
   fetchBlogs: () => void;
@@ -39,9 +44,10 @@ export const BlogsProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get<Blog[]>('https://blogs-app-backend-mb0v.onrender.com/api/post/getallpost');
+      const response = await axios.get<BlogsApiResponse>(
+        'https://blogs-app-backend-mb0v.onrender.com/api/post/getallpost'
+      );
       setBlogs(response.data.posts);
-
     } catch (error) {
       console.error('Error fetching blogs:', error);
     }
@@ -63,7 +69,8 @@ export const BlogsProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useBlogs = () => {
-  const context = React.useContext(BlogContext);
+
+  const context = React.useContext(BlogContext)
   if (!context) {
     throw new Error('useBlogs must be used within a BlogProvider');
   }

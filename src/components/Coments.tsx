@@ -3,6 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useBlogs } from '../context/BlogsContext';
 import { useNavigate } from 'react-router-dom';
+import { AxiosError } from '../utils/Utils';
 
 interface Comment {
   _id: string;
@@ -49,8 +50,8 @@ export const Coments = ({ comments, onClose, postId }: CommentsProps) => {
       toast.success("Comment deleted successfully");
       fetchBlogs()
     } catch (error) {
-      console.error('Error deleting comment:', error);
-      toast.error(error.response?.data?.error || 'Failed to delete comment');
+      const axiosError = error as AxiosError;
+      toast.error(axiosError.response?.data?.error || 'Failed to delete comment');
     }
   };
 

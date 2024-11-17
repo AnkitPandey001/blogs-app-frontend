@@ -39,3 +39,11 @@ body {
     color: #555;
   }
   
+  .loader-containers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    height: 100vh;
+    background-color: #f9f9f9;
+  }

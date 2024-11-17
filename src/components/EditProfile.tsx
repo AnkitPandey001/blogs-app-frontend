@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { useBlogs } from "../context/BlogsContext";
 import { toast } from "react-toastify";
 import { useImageUpload } from "../Hooks/useImageUpload";
+import { AxiosError } from "../utils/Utils";
 
 export const EditProfile = () => {
   const { updateUser } = useAuth();
@@ -32,7 +33,7 @@ export const EditProfile = () => {
   };
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>, fieldName: string) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
     if (!file) return;
 
     const imageUrl = await uploadImage(file);
@@ -60,7 +61,8 @@ export const EditProfile = () => {
       updateUser();
       fetchBlogs();
     } catch (error) {
-      toast.error(error.response.data.error);
+      const axiosError = error as AxiosError;
+      toast.error(axiosError.response?.data?.error);
       console.error("Error updating profile:", error);
     }
   };

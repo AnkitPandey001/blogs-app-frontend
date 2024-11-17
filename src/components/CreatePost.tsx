@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { TextField, Button, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useBlogs } from "../context/BlogsContext";
 import { toast } from "react-toastify";
 import { useImageUpload } from "../Hooks/useImageUpload";
+import { AxiosError } from "../utils/Utils";
 
 export const CreatePost = () => {
   const { updateUser } = useAuth();
@@ -18,16 +19,16 @@ export const CreatePost = () => {
 
   const { uploadImage, uploading } = useImageUpload();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name as string]: value,
+      [name]: value,
     }));
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
     if (!file) return;
 
     const imageUrl = await uploadImage(file);
@@ -57,7 +58,8 @@ export const CreatePost = () => {
       updateUser();
       fetchBlogs();
     } catch (error) {
-      toast.error(error.response?.data?.error || "Error creating post");
+      const axiosError = error as AxiosError;
+      toast.error(axiosError.response?.data?.error || "Error creating post");
       console.error("Error creating post:", error);
     }
   };
@@ -74,7 +76,7 @@ export const CreatePost = () => {
               id="category"
               name="category"
               value={formData.category}
-              onChange={handleChange}
+              onChange={()=>handleChange}
               label="Category"
             >
               <MenuItem value="coding">Coding</MenuItem>

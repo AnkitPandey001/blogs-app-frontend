@@ -8,6 +8,8 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Coments } from "./Coments";
+import '../index.css'
+import { AxiosError } from "../utils/Utils";
 
 interface BlogListProps {
   category: string;
@@ -25,12 +27,21 @@ export const BlogList = ({ category }: BlogListProps) => {
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [currentComments, setCurrentComments] = useState([]);
   const [currentPostId, setCurrentPostId] = useState<string>("");
-  const [searchQuery, setSearchQuery] = useState(""); // State to hold search input
+  const [searchQuery, setSearchQuery] = useState(""); 
+
+  if(blogs.length===0){
+    return (
+      <div className="loader-containers">
+        <div className="spinner"></div>
+        <p>Loading Post...</p>
+      </div>
+    );
+  }
 
   // Filter blogs based on category and title (search functionality)
   const filteredBlogs = blogs
-    .filter((blog) => category === "all" || blog.category === category)
-    .filter((blog) => blog.title.toLowerCase().includes(searchQuery.toLowerCase())); // Filter by search query
+    .filter((blog:any) => category === "all" || blog.category === category)
+    .filter((blog:any) => blog.title.toLowerCase().includes(searchQuery.toLowerCase())); // Filter by search query
 
   const handleProfileClick = (username: string) => {
     navigate(`/profile/${username}`);
@@ -57,8 +68,8 @@ export const BlogList = ({ category }: BlogListProps) => {
       toast.success(response.data.message);
       fetchBlogs();
     } catch (error) {
-      console.error(`Error following user:`, error);
-      toast.error(error.response.data.error);
+      const axiosError = error as AxiosError;
+      toast.error(axiosError.response?.data?.error);
     }
   };
 
@@ -66,7 +77,7 @@ export const BlogList = ({ category }: BlogListProps) => {
     setCommentInputs((prev) => ({ ...prev, [blogId]: value }));
   };
 
-  const openCommentsModal = (comments, postId) => {
+  const openCommentsModal = (comments:any, postId:any) => {
     setCurrentComments(comments);
     setCurrentPostId(postId);
     setShowCommentsModal(true);
@@ -83,7 +94,7 @@ export const BlogList = ({ category }: BlogListProps) => {
         onChange={(e) => setSearchQuery(e.target.value)} 
       />
 
-      {filteredBlogs.map((blog) => (
+      {filteredBlogs.map((blog:any) => (
         <div
           key={blog._id}
           className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 flex flex-col md:flex-row items-stretch"

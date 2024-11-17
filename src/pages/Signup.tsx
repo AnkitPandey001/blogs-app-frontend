@@ -1,8 +1,9 @@
 import { TextField, Button, Box, Typography, Modal, CircularProgress } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { AxiosError } from "../utils/Utils";
 
 export const Signup = () => {
   const navigate = useNavigate();
@@ -41,8 +42,8 @@ export const Signup = () => {
         setOpenOtpModal(true);
       }
     } catch (error) {
-      console.error('Error:', error);
-      toast.error(error.response.data.message);
+      const axiosError = error as AxiosError;
+      toast.error(axiosError.response?.data?.error || "Error in Signup");
     }
   };
 

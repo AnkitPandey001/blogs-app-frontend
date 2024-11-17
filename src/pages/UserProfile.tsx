@@ -23,7 +23,7 @@ interface Post {
   text: string;
   title: string;
   user: string;
-  image?: string; // Add an optional image field
+  img?: string; // Add an optional image field
 }
 
 export const UserProfile = () => {
@@ -115,7 +115,7 @@ export const UserProfile = () => {
           posts.map((post) => (
             <div key={post._id} className="mb-6 border-b border-gray-200 pb-4">
                <img
-                  src={post.img}
+                  src={post?.img || ""}
                   alt={post.title}
                   className="w-full h-64 object-cover mt-4 rounded-lg"
                 />

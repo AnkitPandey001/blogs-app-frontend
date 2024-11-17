@@ -2,12 +2,12 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export const FollowerDetails = () => {
-  const { user } = useAuth();
+  const { LogUser } = useAuth();
   const navigate = useNavigate();
   return (
     <div className="max-h-96 overflow-y-auto p-4">
-      {user &&
-        user.user.following.map((ele) => (
+      {LogUser &&
+        LogUser.following?.map((ele: any) => (
           <div
             key={ele._id}
             className="flex items-center space-x-4 mb-4 p-4 border border-gray-300 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"

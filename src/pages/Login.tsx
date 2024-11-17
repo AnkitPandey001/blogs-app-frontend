@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { TextField, Button, Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from '../context/AuthContext';
 import { toast } from "react-toastify";
-
+import { AxiosError } from "../utils/Utils";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -15,6 +15,8 @@ export const Login = () => {
     password: "",
   });
 
+  const[isLoading,setIsLoading] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLoginData({
       ...loginData,
@@ -24,7 +26,7 @@ export const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setIsLoading(true)
     try {
       const response = await axios.post(
         "https://blogs-app-backend-mb0v.onrender.com/api/auth/login",
@@ -44,8 +46,10 @@ export const Login = () => {
           toast.success(response.data.message);
       }
     } catch (error) {
-      console.error("Error:", error);
-      toast.error(error.response.data.message)
+      const axiosError = error as AxiosError;
+      toast.error(axiosError.response?.data?.error || "Error logging in");
+    }finally {
+      setIsLoading(false);
     }
   };
 
@@ -91,8 +95,9 @@ export const Login = () => {
             color="primary"
             sx={{ marginTop: 2 }}
             className="transition-transform transform hover:scale-105 hover:shadow-2xl"
+            disabled={isLoading}
           >
-            Login
+             {isLoading ? "Signing..." : "Login"}
           </Button>
         </form>
         <div className="mt-4 text-center">
