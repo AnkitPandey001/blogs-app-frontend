@@ -1,5 +1,5 @@
-import  { useState } from "react";
-import { TextField, Button, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
+import { useState } from "react";
+import { TextField, Button } from "@mui/material"; // Removed the MUI Select and FormControl
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useBlogs } from "../context/BlogsContext";
@@ -19,7 +19,7 @@ export const CreatePost = () => {
 
   const { uploadImage, uploading } = useImageUpload();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -69,21 +69,19 @@ export const CreatePost = () => {
       <h1 className="text-2xl font-bold mb-4">Create Your Post</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <FormControl fullWidth>
-            <InputLabel id="category-label">Category</InputLabel>
-            <Select
-              labelId="category-label"
-              id="category"
-              name="category"
-              value={formData.category}
-              onChange={()=>handleChange}
-              label="Category"
-            >
-              <MenuItem value="coding">Coding</MenuItem>
-              <MenuItem value="news">News</MenuItem>
-              <MenuItem value="event">Event</MenuItem>
-            </Select>
-          </FormControl>
+          <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category</label>
+          <select
+            id="category"
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+          >
+            <option value="">Select Category</option>
+            <option value="coding">Coding</option>
+            <option value="news">News</option>
+            <option value="event">Event</option>
+          </select>
         </div>
         <div className="mb-4">
           <TextField

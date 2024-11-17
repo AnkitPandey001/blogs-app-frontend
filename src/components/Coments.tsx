@@ -13,7 +13,7 @@ interface Comment {
     username: string;
     fullname: string;
     profileImg?: string;
-  };
+  } | null; // Allow user to be null
   createdAt: string;
 }
 
@@ -43,12 +43,13 @@ export const Coments = ({ comments, onClose, postId }: CommentsProps) => {
           },
         }
       );
+
       // Update local state to reflect the UI instantly
       setLocalComments((prevComments) =>
         prevComments.filter((comment) => comment._id !== commentId)
       );
       toast.success("Comment deleted successfully");
-      fetchBlogs()
+      fetchBlogs();
     } catch (error) {
       const axiosError = error as AxiosError;
       toast.error(axiosError.response?.data?.error || 'Failed to delete comment');
@@ -70,17 +71,30 @@ export const Coments = ({ comments, onClose, postId }: CommentsProps) => {
             {localComments.map((comment) => (
               <div key={comment._id} className="border-b border-gray-300 pb-4">
                 <div className="flex items-center mb-2">
-                  <img
-                   onClick={()=> navigate(`/profile/${comment.user.username}`)}
-                    src={comment.user.profileImg}
-                    alt={comment.user.fullname}
-                    className="w-10 h-10 rounded-full object-cover mr-3 cursor-pointer"
-                  />
+                  {/* Conditional rendering for the profile image and user details */}
+                  {comment.user ? (
+                    <img
+                      onClick={() => navigate(`/profile/${comment.user.username}`)}
+                      src={comment.user.profileImg}
+                      alt={comment.user.fullname}
+                      className="w-10 h-10 rounded-full object-cover mr-3 cursor-pointer"
+                    />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full bg-gray-300 mr-3"></div> // Placeholder if no user
+                  )}
+
                   <div>
-                    <h3 className="text-lg font-semibold cursor-pointer">{comment.user.fullname}</h3>
-                    <p className="text-sm mt-2 text-gray-500">{new Date(comment.createdAt).toLocaleString()}</p>
+                    {/* Display user name or fallback to 'Anonymous' */}
+                    <h3 className="text-lg font-semibold cursor-pointer">
+                      {comment.user ? comment.user.fullname : 'Anonymous'}
+                    </h3>
+                    <p className="text-sm mt-2 text-gray-500">
+                      {new Date(comment.createdAt).toLocaleString()}
+                    </p>
                   </div>
-                  {comment.user._id === loggedInUserId && (
+
+                  {/* Only show delete button if the logged-in user is the author of the comment */}
+                  {comment.user && comment.user._id === loggedInUserId && (
                     <button
                       onClick={() => handleDeleteComment(comment._id)}
                       className="ml-auto text-red-600 hover:text-red-800"
@@ -89,6 +103,8 @@ export const Coments = ({ comments, onClose, postId }: CommentsProps) => {
                     </button>
                   )}
                 </div>
+
+                {/* Display the comment text */}
                 <p className="text-gray-700">{comment.text}</p>
               </div>
             ))}
