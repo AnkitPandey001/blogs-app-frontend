@@ -2,29 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import '../index.css'
-interface User {
-  _id: string;
-  fullname: string;
-  email: string;
-  follower: string[];
-  following: string[];
-  profileImg: string;
-  coverImg: string;
-  bio: string;
-  link: string;
-}
-
-interface Post {
-  _id: string;
-  category: string;
-  comments: string[];
-  createdAt: string;
-  likes: string[];
-  text: string;
-  title: string;
-  user: string;
-  img?: string; // Add an optional image field
-}
+import {User,Post} from '../utils/Utils'
 
 export const UserProfile = () => {
   const { username } = useParams();
@@ -47,12 +25,12 @@ export const UserProfile = () => {
           }
         );
         setUser(response.data.user);
-        setPosts(response.data.posts); // Assuming the API returns posts as well
+        setPosts(response.data.posts);
         setLoading(false);
       } catch (error) {
         setError("An error occurred while fetching the data.");
         setLoading(false);
-        console.log(error);
+        // console.log(error);
       }
     };
 

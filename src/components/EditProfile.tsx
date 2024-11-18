@@ -11,7 +11,8 @@ export const EditProfile = () => {
   const { updateUser } = useAuth();
   const { fetchBlogs } = useBlogs();
   const { uploadImage, uploading } = useImageUpload();
-
+  const[isLoading,setIsLoading] = useState(false);
+  
   const [formValues, setFormValues] = useState({
     fullname: "",
     username: "",
@@ -47,6 +48,7 @@ export const EditProfile = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true)
     try {
       const response = await axios.post("https://blogs-app-backend-mb0v.onrender.com/api/user/updateprofile", formValues, {
         headers: {
@@ -58,8 +60,10 @@ export const EditProfile = () => {
       if (response.data) {
         toast.success(response.data.message);
       }
+      setIsLoading(false)
       updateUser();
       fetchBlogs();
+
     } catch (error) {
       const axiosError = error as AxiosError;
       toast.error(axiosError.response?.data?.error);
@@ -68,7 +72,7 @@ export const EditProfile = () => {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ mt: { xs: 30, sm: 4 } }}>
+    <Container className="" maxWidth="sm">
       <Box component="form" onSubmit={handleSubmit} sx={{ mt: { xs: 1, sm: 3 }, px: { xs: 2, sm: 0 } }}>
         <Typography variant="h4" gutterBottom>Edit Profile</Typography>
 
@@ -200,7 +204,7 @@ export const EditProfile = () => {
           type="submit"
           variant="contained"
           color="primary"
-          disabled={uploading}
+          disabled={uploading || isLoading}
           fullWidth
           sx={{ mt: { xs: 3, sm: 4 } }}
         >

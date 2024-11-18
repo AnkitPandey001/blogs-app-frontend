@@ -6,16 +6,21 @@ import { useBlogs } from "../context/BlogsContext";
 import { toast } from "react-toastify";
 import { useImageUpload } from "../Hooks/useImageUpload";
 import { AxiosError } from "../utils/Utils";
+import { useNavigate } from "react-router-dom";
 
 export const CreatePost = () => {
   const { updateUser } = useAuth();
   const { fetchBlogs } = useBlogs();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     text: "",
     category: "",
     title: "",
     img: "", 
   });
+
+  const[isLoading,setIsLoading] = useState(false);
+
 
   const { uploadImage, uploading } = useImageUpload();
 
@@ -42,7 +47,7 @@ export const CreatePost = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+    setIsLoading(true)
     try {
       const response = await axios.post("https://blogs-app-backend-mb0v.onrender.com/api/post/create", formData, {
         headers: {
@@ -54,13 +59,14 @@ export const CreatePost = () => {
       if (response.data) {
         toast.success("Post created successfully");
       }
-
+      setIsLoading(true);
+      navigate('/')
       updateUser();
       fetchBlogs();
     } catch (error) {
       const axiosError = error as AxiosError;
       toast.error(axiosError.response?.data?.error || "Error creating post");
-      console.error("Error creating post:", error);
+      // console.error("Error creating post:", error);
     }
   };
 
@@ -113,8 +119,8 @@ export const CreatePost = () => {
             <input type="file" hidden onChange={handleFileChange} />
           </Button>
         </div>
-        <Button type="submit" variant="contained" color="primary" disabled={uploading}>
-          Submit
+        <Button type="submit" variant="contained" color="primary" disabled={uploading || isLoading}>
+          {isLoading?"Posting":"Submit"}
         </Button>
       </form>
     </div>

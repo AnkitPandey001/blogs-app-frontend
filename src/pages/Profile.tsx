@@ -9,12 +9,12 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { FollowerDetails } from "../components/FollowerDetails";
 import { FollowingUserPost } from "../components/FollowingUserPost";
-import '../index.css'
+import "../index.css";
 import { AxiosError } from "../utils/Utils";
 
 export const Profile = () => {
   const { user, updateUser } = useAuth();
-  const { LogUser } = useAuth(); 
+  const { LogUser } = useAuth();
   // console.log(user);
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
@@ -24,8 +24,6 @@ export const Profile = () => {
 
   const { fetchBlogs } = useBlogs();
   const navigate = useNavigate();
-  
-
 
   useEffect(() => {
     updateUser();
@@ -39,7 +37,6 @@ export const Profile = () => {
       </div>
     );
   }
-  
 
   const handleCreatePostClick = () => {
     setShowCreatePost(true);
@@ -75,19 +72,23 @@ export const Profile = () => {
     setShowFollowingModal(true);
   };
 
-  const handleDeletePost = async (postId:string) => {
+  const handleDeletePost = async (postId: string) => {
     try {
-      await axios.delete(`https://blogs-app-backend-mb0v.onrender.com/api/post/${postId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      await axios.delete(
+        `https://blogs-app-backend-mb0v.onrender.com/api/post/${postId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       //console.log("Post deleted successfully");
       toast.success("Post deleted successfully");
       updateUser();
       fetchBlogs();
     } catch (error) {
-      console.error("Error deleting post:", error);
+      const axiosError = error as AxiosError;
+      toast.error(axiosError.response?.data?.error || "Error Deleteing in");
     }
   };
 
@@ -109,7 +110,9 @@ export const Profile = () => {
       navigate("/login");
     } catch (error) {
       const axiosError = error as AxiosError;
-      toast.error(axiosError?.response?.data?.error || "Error updating profile");
+      toast.error(
+        axiosError?.response?.data?.error || "Error updating profile"
+      );
     }
   };
 
@@ -124,7 +127,7 @@ export const Profile = () => {
         />
         <div className="absolute -bottom-12 left-8">
           <img
-           src={LogUser.profileImg}
+            src={LogUser.profileImg}
             alt="User Profile"
             className="w-24 h-24 rounded-full border-4 border-white"
           />
@@ -137,8 +140,13 @@ export const Profile = () => {
           {LogUser.fullname} ||| @{LogUser.username}
         </h2>
         <p className="text-gray-600">{LogUser.bio}</p>
-        <a className=" text-blue-700" href={LogUser.link}>{LogUser.link}</a>
-        <p className="text-gray-600"><span className=" font-bold">Email:-</span>{LogUser.email}</p>
+        <a className=" text-blue-700" href={LogUser.link}>
+          {LogUser.link}
+        </a>
+        <p className="text-gray-600">
+          <span className=" font-bold">Email:-</span>
+          {LogUser.email}
+        </p>
         <div className="flex space-x-4">
           <p
             className="text-gray-600 cursor-pointer"
@@ -208,7 +216,7 @@ export const Profile = () => {
       ) : (
         <div className="space-y-4">
           {user.posts.length > 0 ? (
-            user.posts.map((post:any) => (
+            user.posts.map((post: any) => (
               <div key={post._id} className="bg-white shadow-md rounded-lg p-4">
                 <img
                   src={post.img}
@@ -216,13 +224,17 @@ export const Profile = () => {
                   className="w-full h-48 object-cover rounded-md mb-4"
                 />
                 <h4 className="text-lg font-semibold text-gray-800 mb-2">
-                <span className=" font-bold">Category:-</span>{post.category}
+                  <span className=" font-bold">Category:-</span>
+                  {post.category}
                 </h4>
-                <p className="text-gray-700 mb-2"><span className=" font-bold text-xl">Title:-</span>{post.title}</p>
+                <p className="text-gray-700 mb-2">
+                  <span className=" font-bold text-xl">Title:-</span>
+                  {post.title}
+                </p>
                 <p className="text-gray-700 mb-2">{post.text}</p>
                 <div className="flex justify-between items-center text-gray-500 text-sm">
                   <div>
-                  <div className="border-b-4 border-solid border-gray-500"></div>
+                    <div className="border-b-4 border-solid border-gray-500"></div>
 
                     <span className="">{post.likes.length} Likes</span>
                     <span className="ml-7">
@@ -269,15 +281,26 @@ export const Profile = () => {
 
       {/* Edit Profile Modal */}
       {showEditProfile && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 pt-56 overflow-auto">
+        <div className="fixed inset-0 md:flex md:justify-center md:items-start z-50 md:pt-10 overflow-auto pt-20">
+          {/* Overlay */}
           <div
             className="fixed inset-0 bg-black opacity-50"
             onClick={handleCloseEditProfile}
           ></div>
-          <div className="bg-white rounded-lg p-6 z-10 max-w-lg w-full relative">
+
+          {/* Modal Content */}
+          <div
+            className="bg-white rounded-lg p-8 z-10 relative md:max-w-4xl w-full md:w-auto"
+            style={{
+              margin: "5% auto",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
+              maxHeight: "85%",
+              overflowY: "auto",
+            }}
+          >
             <button
               onClick={handleCloseEditProfile}
-              className="text-4xl absolute top-2 right-2 text-gray-600 hover:text-red-800  mt-60"
+              className="text-5xl mt-3 absolute top-4 right-4 text-gray-600 hover:text-red-800"
             >
               &times;
             </button>

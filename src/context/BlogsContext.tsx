@@ -1,41 +1,8 @@
 import { createContext, useState, useEffect, ReactNode } from 'react';
 import axios from 'axios';
-import React from 'react'
+import React from 'react';
+import { BlogsContextType, Blog, BlogsApiResponse } from '../utils/Utils';
 
-interface User {
-  _id: string;
-  username: string;
-  fullname: string;
-  email: string;
-  follower: string[];
-  following: string[];
-  profileImg: string;
-  coverImg: string;
-  bio: string;
-  link: string;
-}
-
-interface Blog {
-  _id: string;
-  user: User;
-  text: string;
-  likes: string[];
-  category: string;
-  title: string;
-  comments: string[];
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface BlogsApiResponse {
-  posts: Blog[];
-}
-
-interface BlogsContextType {
-  blogs: Blog[];
-  fetchBlogs: () => void;
-  getBlogsByCategory: (category: string) => Blog[];
-}
 
 const BlogContext = createContext<BlogsContextType | undefined>(undefined);
 
@@ -54,7 +21,7 @@ export const BlogsProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const getBlogsByCategory = (category: string) => {
-    return blogs.filter(blog => blog.category === category);
+    return blogs.filter((blog) => blog.category === category);
   };
 
   useEffect(() => {
@@ -69,8 +36,7 @@ export const BlogsProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useBlogs = () => {
-
-  const context = React.useContext(BlogContext)
+  const context = React.useContext(BlogContext);
   if (!context) {
     throw new Error('useBlogs must be used within a BlogProvider');
   }

@@ -18,8 +18,7 @@ export const Signup = () => {
   const [openOtpModal, setOpenOtpModal] = useState(false);
   const [otp, setOtp] = useState("");
   const [otpError, setOtpError] = useState("");
-  const [loading, setLoading] = useState(false); // Loading state for OTP verification
-
+  const [loading, setLoading] = useState(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -43,7 +42,7 @@ export const Signup = () => {
       }
     } catch (error) {
       const axiosError = error as AxiosError;
-      toast.error(axiosError.response?.data?.error || "Error in Signup");
+      toast.error(axiosError.response?.data?.message || "Error in Signup");
     }
   };
 
@@ -58,10 +57,10 @@ export const Signup = () => {
         setOpenOtpModal(false);
       }
     } catch (error) {
-      console.error('Error verifying OTP:', error);
+      // console.error('Error verifying OTP:', error);
       setOtpError('Invalid OTP, please try again.');
     } finally {
-      setLoading(false); // Reset loading state after the request is complete
+      setLoading(false);
     }
   };
 

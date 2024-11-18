@@ -5,7 +5,7 @@ export const FollowingDetails = () => {
   const { LogUser } = useAuth();
   const navigate = useNavigate();
 
-  //console.log(LogUser)
+
 
   if (!LogUser) {
     return <div>Loading...</div>;

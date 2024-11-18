@@ -4,24 +4,8 @@ import { toast } from 'react-toastify';
 import { useBlogs } from '../context/BlogsContext';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from '../utils/Utils';
+import { Comment,CommentsProps } from '../utils/Utils';
 
-interface Comment {
-  _id: string;
-  text: string;
-  user: {
-    _id: string;
-    username: string;
-    fullname: string;
-    profileImg?: string;
-  } | null; // Allow user to be null
-  createdAt: string;
-}
-
-interface CommentsProps {
-  comments: Comment[];
-  onClose: () => void;
-  postId: string;
-}
 
 export const Coments = ({ comments, onClose, postId }: CommentsProps) => {
   const loggedInUserId = localStorage.getItem('userId');
@@ -74,13 +58,13 @@ export const Coments = ({ comments, onClose, postId }: CommentsProps) => {
                   {/* Conditional rendering for the profile image and user details */}
                   {comment.user ? (
                     <img
-                      onClick={() => navigate(`/profile/${comment.user.username}`)}
+                      onClick={() => navigate(`/profile/${comment.user?.username }`)}
                       src={comment.user.profileImg}
                       alt={comment.user.fullname}
                       className="w-10 h-10 rounded-full object-cover mr-3 cursor-pointer"
                     />
                   ) : (
-                    <div className="w-10 h-10 rounded-full bg-gray-300 mr-3"></div> // Placeholder if no user
+                    <div className="w-10 h-10 rounded-full bg-gray-300 mr-3"></div> 
                   )}
 
                   <div>

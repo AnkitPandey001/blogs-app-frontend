@@ -31,12 +31,12 @@ export const WelcomePages = () => {
   }, [token]);
 
   return (
-    <div className="flex flex-col items-center justify-center space-y-3 p-4">
+    <div className="flex flex-col items-center justify-center space-y-3 p-4 mt-10">
       <div className="flex items-center space-x-3 md:mt-28 mt-28">
         <h1 className="text-2xl md:text-4xl font-bold md:mb-20 mb-20">
           Welcome,{" "}
           <span className="text-2xl md:text-5xl text-green-900">
-            {user?.fullname}✌️
+          {user?.fullname}✌️
           </span>
           <p className="text-lg mt-4 md:text-xl italic text-gray-900 text-center">
             It's like walking into a bookstore—where will your curiosity take

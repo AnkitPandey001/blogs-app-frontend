@@ -43,11 +43,11 @@ export const Login = () => {
         login(token);
         localStorage.setItem('userId',response.data.user._id)
         navigate('/');
-          toast.success(response.data.message);
+        toast.success(response.data.message);
       }
     } catch (error) {
       const axiosError = error as AxiosError;
-      toast.error(axiosError.response?.data?.error || "Error logging in");
+      toast.error(axiosError.response?.data?.message || "Error logging in");
     }finally {
       setIsLoading(false);
     }
