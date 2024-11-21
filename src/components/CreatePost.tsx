@@ -49,7 +49,7 @@ export const CreatePost = () => {
     e.preventDefault();
     setIsLoading(true)
     try {
-      const response = await axios.post("/api/post/create", formData, {
+      const response = await axios.post("https://blogs-app-backend-mb0v.onrender.com/api/post/create", formData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,

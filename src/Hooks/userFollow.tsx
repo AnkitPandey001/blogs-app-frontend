@@ -11,7 +11,7 @@ export const useFollow = () => {
   const toggleFollow = async (userId: string) => {
     try {
        await axios.post(
-        `/api/user/follow/${userId}`,
+        `https://blogs-app-backend-mb0v.onrender.com/api/user/follow/${userId}`,
         {},
         {
           headers: {

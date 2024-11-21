@@ -50,7 +50,7 @@ export const EditProfile = () => {
     e.preventDefault();
     setIsLoading(true)
     try {
-      const response = await axios.post("/api/user/updateprofile", formValues, {
+      const response = await axios.post("https://blogs-app-backend-mb0v.onrender.com/api/user/updateprofile", formValues, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,

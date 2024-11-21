@@ -20,7 +20,7 @@ export const TopSuggestion = () => {
     const fetchData = async () => {
       try {
         const response = await axios.post<User[]>(
-          "/api/user/suggested",
+          "https://blogs-app-backend-mb0v.onrender.com/api/user/suggested",
           {},
           {
             headers: {

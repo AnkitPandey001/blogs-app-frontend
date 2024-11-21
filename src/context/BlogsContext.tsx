@@ -12,7 +12,7 @@ export const BlogsProvider = ({ children }: { children: ReactNode }) => {
   const fetchBlogs = async () => {
     try {
       const response = await axios.get<BlogsApiResponse>(
-        '/api/post/getallpost'
+        'https://blogs-app-backend-mb0v.onrender.com/api/post/getallpost'
       );
       setBlogs(response.data.posts);
     } catch (error) {

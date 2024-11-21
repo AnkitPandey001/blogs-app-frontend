@@ -20,7 +20,7 @@ export const Coments = ({ comments, onClose, postId }: CommentsProps) => {
   const handleDeleteComment = async (commentId: string) => {
     try {
       await axios.delete(
-        `/api/post/comment/${postId}/${commentId}`,
+        `https://blogs-app-backend-mb0v.onrender.com/api/post/comment/${postId}/${commentId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,

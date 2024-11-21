@@ -29,7 +29,7 @@ export const Signup = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/auth/signup', formData, {
+      const response = await axios.post('https://blogs-app-backend-mb0v.onrender.com/api/auth/signup', formData, {
         headers: {
           'Content-Type': 'application/json',
         },
