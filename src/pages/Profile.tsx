@@ -75,7 +75,7 @@ export const Profile = () => {
   const handleDeletePost = async (postId: string) => {
     try {
       await axios.delete(
-        `https://blogs-app-backend-mb0v.onrender.com/api/post/${postId}`,
+        `/api/post/${postId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

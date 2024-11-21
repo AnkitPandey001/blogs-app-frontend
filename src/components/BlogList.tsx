@@ -56,7 +56,7 @@ export const BlogList = ({ category }: BlogListProps) => {
     const commentText = commentInputs[blogId];
     try {
       const response = await axios.post(
-        `https://blogs-app-backend-mb0v.onrender.com/api/post/comment/${blogId}`,
+        `/api/post/comment/${blogId}`,
         { text: commentText },
         {
           headers: {

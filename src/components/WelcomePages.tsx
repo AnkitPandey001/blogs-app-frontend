@@ -12,7 +12,7 @@ export const WelcomePages = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://blogs-app-backend-mb0v.onrender.com/api/auth/me", {
+        const response = await axios.get("/api/auth/me", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,

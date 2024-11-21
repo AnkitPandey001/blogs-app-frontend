@@ -16,7 +16,7 @@ export const UserProfile = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://blogs-app-backend-mb0v.onrender.com/api/user/profile/${username}`,
+          `/api/user/profile/${username}`,
           {
             headers: {
               "Content-Type": "application/json",

@@ -36,7 +36,7 @@ export const FollowingUserPost = () => {
       setIsLoading(true)
       try {
         const response = await axios.post(
-          `https://blogs-app-backend-mb0v.onrender.com/api/post/following`,
+          `/api/post/following`,
           {},
           {
             headers: {

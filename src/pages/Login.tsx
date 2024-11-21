@@ -29,7 +29,7 @@ export const Login = () => {
     setIsLoading(true)
     try {
       const response = await axios.post(
-        "https://blogs-app-backend-mb0v.onrender.com/api/auth/login",
+        "/api/auth/login",
         loginData,
         {
           headers: {

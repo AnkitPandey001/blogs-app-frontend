@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const token = localStorage.getItem('token');
     if (token) {
       axios
-        .get('https://blogs-app-backend-mb0v.onrender.com/api/auth/me', {
+        .get('/api/auth/me', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,

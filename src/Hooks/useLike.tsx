@@ -10,7 +10,7 @@ export const useLike = () => {
   const toggleLike = async (userId: string) => {
         try {
              await axios.post(
-              `https://blogs-app-backend-mb0v.onrender.com/api/post/like/${userId}`,
+              `/api/post/like/${userId}`,
               {},
               {
                 headers: {
