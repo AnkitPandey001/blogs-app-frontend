@@ -1,50 +1,30 @@
-# React + TypeScript + Vite
+cat << 'EOF' > README.md
+# Blog App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a Blog App where users can create, edit, and delete posts. They can follow other users, view their profiles, and explore posts from the community. The app includes features like user authentication, profile customization, and a feed showcasing posts with likes and comments.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **User Authentication**: Secure login and signup.
+- **Profile Customization**: Users can update their profile pictures, bios, and other details.
+- **Post Management**: Create, edit, and delete posts with rich text support.
+- **Community Engagement**: 
+  - Follow and unfollow users to build your network.
+  - Like and comment on posts to interact with the community.
+- **Explore Feed**: Browse through posts created by the community.
+- **Responsive Design**: Accessible on both mobile and desktop devices.
 
-## Expanding the ESLint configuration
+## Technologies Used
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Frontend**: React, TypeScript, Vite
+- **Styling**: Tailwind CSS
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB
+- **Authentication**: JWT (JSON Web Tokens)
+- **Deployment**: Deployed using [Vercel] for the frontend and [render] for the backend.
 
-- Configure the top-level `parserOptions` property like this:
+## Image Section
+![Screenshot (259)](https://github.com/user-attachments/assets/c06705d6-9448-47a6-bec3-826f978cd049)
+![Screenshot (260)](https://github.com/user-attachments/assets/6be5db65-3acf-450d-a65d-ff54f1bd9a74)
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
