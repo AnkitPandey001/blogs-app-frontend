@@ -11,7 +11,7 @@ import { FollowerDetails } from "../components/FollowerDetails";
 import { FollowingUserPost } from "../components/FollowingUserPost";
 import "../index.css";
 import { AxiosError } from "../utils/Utils";
-import { MyPost } from "../components/myPost";
+import { MyPost } from "../components/MyPost";
 
 export const Profile = () => {
   const { user, updateUser } = useAuth();

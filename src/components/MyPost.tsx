@@ -2,7 +2,6 @@ import React from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { AxiosError } from "../utils/Utils";
-import { Coments } from "./Coments";
 
 interface MyPostProps {
   posts: any[];
