@@ -66,7 +66,7 @@ export const Signup = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen px-4 sm:px-6 lg:px-8 ">
-      <div className="w-full max-w-md p-6 space-y-8">
+      <div className="w-full max-w-md  space-y-8">
         <Box
           sx={{
             width: '100%',

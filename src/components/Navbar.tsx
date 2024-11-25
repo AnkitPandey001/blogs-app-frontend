@@ -27,13 +27,13 @@ export const Navbar: React.FC = () => {
 
   return (
     <div 
-      className="fixed bg-gray-100 m-5  w-[90%] shadow-md backdrop-blur-lg rounded-xl sm:ml-[42px] md:ml-[80px]" 
+      className="fixed bg-[#3C3D37] m-5 md:w-[60%] w-[90%] md:h-[60px] shadow-md backdrop-blur-lg rounded-xl sm:ml-[42px] md:ml-[20%]" 
       style={{ zIndex: 1000 }}
     >
-      <div className="container mx-auto flex justify-between items-center px-4 py-3">
+      <div className="container mx-auto flex justify-between items-center md:mt-1">
         {/* Logo and Home link */}
         <div className="flex items-center space-x-8">
-          <h1 className="text-xl md:ml-10 bg-indigo-800 p-1 rounded text-white font-semibold">
+          <h1 className="text-xl md:ml-10 bg-indigo-800 p-1 rounded text-white font-semibold ml-6">
             Daily-Blogs
           </h1>
           {isAuthenticated && (
@@ -58,8 +58,8 @@ export const Navbar: React.FC = () => {
                 to="/login"
                 className={({ isActive }: { isActive: boolean }) =>
                   isActive
-                    ? "text-white font-semibold text-lg hover:bg-blue-700 px-4 py-2 rounded-lg bg-blue-600"
-                    : "text-black text-lg hover:bg-blue-600 px-4 py-2 rounded-lg"
+                    ? "text-blue-500 font-semibold text-lg  px-4 py-2"
+                    : "text-white text-lg  px-4 py-2"
                 }
               >
                 Login
@@ -68,15 +68,15 @@ export const Navbar: React.FC = () => {
                 to="/signup"
                 className={({ isActive }: { isActive: boolean }) =>
                   isActive
-                    ? "text-white font-semibold text-lg hover:bg-blue-700 px-4 py-2 rounded-lg bg-blue-600"
-                    : "text-black text-lg hover:bg-blue-600 px-4 py-2 rounded-lg"
+                    ? "text-blue-500 font-semibold text-lg  px-4 py-2"
+                    : "text-white text-lg  px-4 py-2"
                 }
               >
                 Signup
               </NavLink>
             </>
           ) : (
-            <div className="relative" ref={profileMenuRef}>
+            <div className="relative md:mr-10" ref={profileMenuRef}>
               <button
                 onClick={handleClicked}
                 className="text-white bg-indigo-600 text-lg hover:bg-indigo-700 px-4 py-2 rounded-full  flex items-center justify-center"

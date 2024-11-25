@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 interface User {
   _id: string | number;
   fullname: string;
-  imageUrl: string;
+  profileImg: string;
   username:string;
 }
 
@@ -14,6 +14,7 @@ export const TopSuggestion = () => {
 
   const token = localStorage.getItem("token");
   const [users, setUsers] = useState<User[]>([]);
+  // console.log(users)
   const { fetchBlogs } = useBlogs();
 
   useEffect(() => {
@@ -56,7 +57,7 @@ export const TopSuggestion = () => {
           },
         }
       );
-      console.log(`Follow response:`, response.data);
+      // console.log(`Follow response:`, response.data);
       const updatedUsers = users.filter(user => user._id !== userId);
       setUsers(updatedUsers);
       fetchBlogs();
@@ -73,23 +74,23 @@ export const TopSuggestion = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-center text-2xl font-bold mb-6">Top Creators of Our App!</h1>
+    <div className="">
+      <h1 className="text-center md:ml-6 ml-2 bg-white text-2xl font-bold md:mt-3 rounded-sm w-[370px] md:w-[300px]">Top Creators of Our App!</h1>
       {Array.isArray(users) && users.length === 0 ? (
-        <p className="text-center text-lg">No suggestions for you</p>
+        <p className="text-center text-lg mt-2 text-white">No suggestions for you</p>
       ) : (
         users.map((user) => (
-          <div key={user._id} className="m-4 p-4 border rounded-lg shadow-md flex items-center space-x-4 bg-white">
+          <div key={user._id} className="m-4 md:w-[310px] w-[350px] md:mt-6 p-4 border rounded-lg shadow-md flex items-center space-x-4 bg-[#3C3D37]">
             {/* Profile Image and Name in Single Line */}
             <div className="flex items-center space-x-4">
               <img
                 onClick={() => handleProfileClick(user.username)}
-                src="https://imgs.search.brave.com/ILui-8Aqkx4wZV_SgFiB6H6RLej3LcnKSTjp0I7SHb0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5saWNkbi5jb20v/ZG1zL2ltYWdlL0Q1/NjEyQVFHc2o2NUVz/WkhOZHcvYXJ0aWNs/ZS1jb3Zlcl9pbWFn/ZS1zaHJpbmtfNzIw/XzEyODAvMC8xNjg0/MDk0ODgxMTk1P2U9/MjE0NzQ4MzY0NyZ2/PWJldGEmdD1yc25Q/aFFsVUc4Y2NHVmNy/VGV1OGU2bTdBRDQ1/bF9EYWhJeElBM3dN/UDMw"
-                alt={user.fullname}
+                src={user?.profileImg || 'https://imgs.search.brave.com/wJWW2UCCNypggmyzWylg7-wiyrZiQkaTLqNGAfr9-xg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzEwLzUyLzY3Lzc3/LzM2MF9GXzEwNTI2/Nzc3MDVfZkF0TVZH/MEF3Y0pKSkc5WFI0/Z09aV0VNbDJPNndM/QXMuanBn'}
+                alt=""
                 className="w-20 h-20 rounded-full object-cover cursor-pointer"
-             
+  
              />
-              <h2 className="text-lg font-semibold">{user.fullname}</h2>
+              <h2 className="text-lg text-white font-serif">{user.fullname}</h2>
             </div>
             {/* Follow Button */}
             <button
@@ -104,3 +105,4 @@ export const TopSuggestion = () => {
     </div>
   );
 };
+

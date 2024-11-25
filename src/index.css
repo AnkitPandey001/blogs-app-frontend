@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-    @apply bg-gray-200 text-gray-900;
+    @apply bg-[#181C14];
 }
 
 .loader-container {

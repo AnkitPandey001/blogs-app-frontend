@@ -31,8 +31,8 @@ export const WelcomePages = () => {
   }, [token]);
 
   return (
-    <div className="flex flex-col items-center justify-center space-y-3 p-4 mt-10">
-      <div className="flex items-center space-x-3 md:mt-28 mt-28">
+    <div className="flex flex-col items-center justify-center space-y-3 p-4 mt-20 md:mb-20">
+      <div className="flex items-center space-x-3 md:mt-28 mt-10">
         <h1 className="text-2xl md:text-4xl font-bold md:mb-20 mb-20">
           Welcome,{" "}
           <span className="text-2xl md:text-5xl text-green-900">

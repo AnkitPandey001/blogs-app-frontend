@@ -65,7 +65,7 @@ export const Login = () => {
         }}
         className="shadow-lg"
       >
-        <Typography variant="h4" align="center" className="mb-4">
+        <Typography variant="h4" align="center" className="">
           Login
         </Typography>
         <form onSubmit={handleSubmit} className="space-y-4">

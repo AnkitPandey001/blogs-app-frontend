@@ -11,11 +11,12 @@ import { FollowerDetails } from "../components/FollowerDetails";
 import { FollowingUserPost } from "../components/FollowingUserPost";
 import "../index.css";
 import { AxiosError } from "../utils/Utils";
+import { MyPost } from "../components/myPost";
 
 export const Profile = () => {
   const { user, updateUser } = useAuth();
   const { LogUser } = useAuth();
-  // console.log(user);
+  //  console.log(user);
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showFollowingPosts, setShowFollowingPosts] = useState(false);
@@ -70,26 +71,6 @@ export const Profile = () => {
   };
   const handleFollowFollowingClick = () => {
     setShowFollowingModal(true);
-  };
-
-  const handleDeletePost = async (postId: string) => {
-    try {
-      await axios.delete(
-        `https://blogs-app-backend-mb0v.onrender.com/api/post/${postId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      //console.log("Post deleted successfully");
-      toast.success("Post deleted successfully");
-      updateUser();
-      fetchBlogs();
-    } catch (error) {
-      const axiosError = error as AxiosError;
-      toast.error(axiosError.response?.data?.error || "Error Deleteing in");
-    }
   };
 
   const handleDeleteAccount = async () => {
@@ -214,46 +195,11 @@ export const Profile = () => {
           <FollowingUserPost />
         </div>
       ) : (
-        <div className="space-y-4">
-          {user.posts.length > 0 ? (
-            user.posts.map((post: any) => (
-              <div key={post._id} className="bg-white shadow-md rounded-lg p-4">
-                <img
-                  src={post.img}
-                  alt="Post"
-                  className="w-full h-48 object-cover rounded-md mb-4"
-                />
-                <h4 className="text-lg font-semibold text-gray-800 mb-2">
-                  <span className=" font-bold">Category:-</span>
-                  {post.category}
-                </h4>
-                <p className="text-gray-700 mb-2">
-                  <span className=" font-bold text-xl">Title:-</span>
-                  {post.title}
-                </p>
-                <p className="text-gray-700 mb-2">{post.text}</p>
-                <div className="flex justify-between items-center text-gray-500 text-sm">
-                  <div>
-                    <div className="border-b-4 border-solid border-gray-500"></div>
-
-                    <span className="">{post.likes.length} Likes</span>
-                    <span className="ml-7">
-                      {post.comments.length} Comments
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => handleDeletePost(post._id)}
-                    className="text-red-600 hover:text-red-800"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-600 text-center">No posts available</p>
-          )}
-        </div>
+        <MyPost
+        posts={user.posts}
+        fetchBlogs={fetchBlogs}
+        updateUser={updateUser}
+      />
       )}
 
       {/* //! ----------------------------------------- */}
